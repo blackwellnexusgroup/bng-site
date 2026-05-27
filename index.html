@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blackwell Nexus Group — Institutional Compliance Systems</title>
+  <meta name="description" content="Blackwell Nexus Group designs and deploys operational compliance systems for institutions navigating regulated environments.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink-000: #04080F;
+      --ink-050: #080E1C;
+      --ink-100: #0D1628;
+      --ink-200: #132033;
+      --ink-300: #1A2A42;
+      --ink-400: #243A56;
+      --ink-500: #2F4D70;
+      --fg-000: #FFFFFF;
+      --fg-100: #EDF2FA;
+      --fg-200: #C0CFDF;
+      --fg-300: #8DAABF;
+      --fg-400: #5A7A96;
+      --amber: #E8B048;
+      --amber-soft: #F5C871;
+      --amber-glow: rgba(232,176,72,0.18);
+      --lum: #5BB0FF;
+      --lum-glow: rgba(91,176,255,0.20);
+      --success: #6BB67A;
+      --line: rgba(255,255,255,0.08);
+      --line-strong: rgba(255,255,255,0.14);
+      --font-display: 'Space Grotesk', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --container: 1200px;
+      --gutter: clamp(20px, 5vw, 60px);
+      --ease: cubic-bezier(0.2, 0.6, 0.2, 1);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--ink-050);
+      color: var(--fg-100);
+      font-family: var(--font-display);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 50% at 10% -10%, rgba(232,176,72,0.16) 0%, transparent 55%),
+        radial-gradient(ellipse 60% 45% at 90% 15%, rgba(91,176,255,0.12) 0%, transparent 55%),
+        radial-gradient(ellipse 80% 60% at 50% 100%, rgba(91,176,255,0.06) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; cursor: pointer; }
+    ::selection { background: var(--amber); color: var(--ink-050); }
+
+    .wrap {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding-left: var(--gutter);
+      padding-right: var(--gutter);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      transition: background 300ms var(--ease), border-color 300ms var(--ease);
+      border-bottom: 1px solid transparent;
+    }
+    .header.scrolled {
+      background: rgba(8,14,28,0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom-color: var(--line);
+    }
+    .header__inner {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 18px var(--gutter);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+    }
+    .wordmark {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .wordmark__mark {
+      width: 28px; height: 28px;
+      flex-shrink: 0;
+    }
+    .wordmark__text { display: flex; flex-direction: column; gap: 3px; }
+    .wordmark__name {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: var(--fg-100);
+      line-height: 1;
+    }
+    .wordmark__sub {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.16em;
+      color: var(--fg-400);
+      text-transform: uppercase;
+      line-height: 1;
+    }
+    .nav { display: flex; gap: 32px; }
+    .nav a {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--fg-300);
+      transition: color 160ms;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .nav a:hover { color: var(--fg-100); }
+    .nav__num { color: var(--amber); font-size: 9px; }
+    .header__dot {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      color: var(--fg-400);
+    }
+    .pulse {
+      width: 6px; height: 6px;
+      background: var(--success);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--success);
+      animation: pulse 2.4s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.35} }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      padding: 140px var(--gutter) 100px;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid var(--line);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero__grid {
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.045) 1px, transparent 1px);
+      background-size: 28px 28px;
+      mask-image: linear-gradient(to bottom, transparent 0%, black 25%, black 75%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 25%, black 75%, transparent 100%);
+      pointer-events: none;
+    }
+    .hero__glow {
+      position: absolute;
+      top: -300px; left: -200px;
+      width: 1000px; height: 1000px;
+      background: radial-gradient(circle, rgba(232,176,72,0.30) 0%, rgba(232,176,72,0.08) 35%, transparent 65%);
+      filter: blur(4px);
+      pointer-events: none;
+      animation: glow 12s ease-in-out infinite alternate;
+    }
+    .hero__glow--lum {
+      top: auto; bottom: -200px;
+      left: auto; right: -200px;
+      width: 800px; height: 800px;
+      background: radial-gradient(circle, rgba(91,176,255,0.22) 0%, rgba(91,176,255,0.06) 40%, transparent 65%);
+      animation-delay: 4s; animation-duration: 16s;
+    }
+    @keyframes glow { 0%{transform:translate(0,0) scale(1)} 100%{transform:translate(60px,40px) scale(1.1)} }
+
+    .hero__schematic {
+      position: absolute;
+      top: 100px; right: -20px;
+      width: min(480px, 38vw);
+      opacity: 0.45;
+      pointer-events: none;
+    }
+
+    .hero__content {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+    }
+    .hero__eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 14px;
+      border: 1px solid var(--line-strong);
+      background: rgba(8,14,28,0.5);
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+    .mono-tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--fg-400);
+    }
+    .mono-tag--amber { color: var(--amber); }
+    .mono-tag--lum { color: var(--lum); }
+    .sep { color: var(--fg-400); opacity: 0.4; }
+
+    .hero__h1 {
+      font-size: clamp(40px, 7vw, 88px);
+      font-weight: 500;
+      line-height: 1.0;
+      letter-spacing: -0.025em;
+      margin-bottom: 32px;
+      color: var(--fg-100);
+    }
+    .hero__h1 em {
+      font-style: normal;
+      color: var(--amber);
+      text-shadow: 0 0 40px rgba(232,176,72,0.35);
+    }
+    .hero__sub {
+      font-size: clamp(17px, 2vw, 20px);
+      line-height: 1.6;
+      color: var(--fg-200);
+      max-width: 560px;
+      margin-bottom: 48px;
+    }
+    .hero__actions { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 72px; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 24px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border: 1px solid var(--line-strong);
+      background: transparent;
+      color: var(--fg-100);
+      transition: all 160ms var(--ease);
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn--primary {
+      background: var(--amber);
+      border-color: var(--amber);
+      color: var(--ink-050);
+    }
+    .btn--primary:hover {
+      background: var(--amber-soft);
+      border-color: var(--amber-soft);
+      box-shadow: 0 0 32px rgba(232,176,72,0.25);
+    }
+    .btn--ghost:hover { border-color: var(--amber); color: var(--amber); }
+    .btn:disabled { opacity: 0.6; cursor: default; transform: none; }
+
+    .hero__stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      border-top: 1px solid var(--line);
+      padding-top: 28px;
+      max-width: 820px;
+    }
+    .stat {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      border-left: 1px solid rgba(255,255,255,0.04);
+      padding-left: 20px;
+    }
+    .stat:first-child { border-left: 0; padding-left: 0; }
+    .stat__key {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--fg-400);
+    }
+    .stat__val {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      color: var(--fg-200);
+      text-transform: uppercase;
+    }
+    .stat__val--amber { color: var(--amber); }
+    .stat__val--lum { color: var(--lum); }
+
+    /* ── SVG ANIMATIONS ── */
+    @keyframes flow { to { stroke-dashoffset: -200; } }
+    .flow { stroke-dasharray: 4 8; animation: flow 3s linear infinite; }
+    .flow--slow { animation-duration: 7s; }
+    @keyframes travel {
+      0% { stroke-dashoffset: 600; opacity: 0; }
+      8% { opacity: 1; }
+      92% { opacity: 1; }
+      100% { stroke-dashoffset: 0; opacity: 0; }
+    }
+    .travel { stroke-dasharray: 24 600; animation: travel 3.8s linear infinite; }
+    @keyframes npulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.2);opacity:0.6} }
+    .npulse { transform-box: fill-box; transform-origin: center; animation: npulse 2.4s ease-in-out infinite; }
+    .npulse--2 { animation-delay: 0.8s; }
+    .npulse--3 { animation-delay: 1.6s; }
+
+    /* ── TICKER ── */
+    .ticker {
+      background: var(--ink-100);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      padding: 14px 0;
+      overflow: hidden;
+      position: relative;
+      z-index: 1;
+    }
+    .ticker__track {
+      display: flex;
+      gap: 40px;
+      width: max-content;
+      align-items: center;
+      animation: ticker 55s linear infinite;
+    }
+    .ticker:hover .ticker__track { animation-play-state: paused; }
+    @keyframes ticker { to { transform: translateX(-50%); } }
+    .ticker__item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: var(--fg-400);
+      white-space: nowrap;
+    }
+    .ticker__item--amber { color: var(--amber); }
+    .ticker__item--lum { color: var(--lum); }
+    .ticker__key { color: var(--fg-400); opacity: 0.55; }
+    .ticker__sep { color: var(--fg-400); opacity: 0.3; }
+
+    /* ── SECTIONS ── */
+    .section {
+      padding: 120px 0;
+      border-bottom: 1px solid var(--line);
+      position: relative;
+    }
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 48px;
+    }
+    .section-label__num { color: var(--amber); font-weight: 600; }
+    .section-label__sep { color: var(--fg-400); opacity: 0.4; }
+    .section-label__name { color: var(--fg-400); }
+
+    .section__lead {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 40px 64px;
+      margin-bottom: 48px;
+      align-items: end;
+    }
+    .section__title {
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 500;
+      line-height: 1.06;
+      letter-spacing: -0.02em;
+      color: var(--fg-100);
+    }
+    .section__title .muted { color: var(--fg-400); }
+    .section__body {
+      font-size: 17px;
+      line-height: 1.65;
+      color: var(--fg-300);
+      max-width: 440px;
+      margin-left: auto;
+    }
+
+    .rule {
+      height: 1px;
+      background: var(--line);
+      margin: 40px 0;
+      position: relative;
+    }
+    .rule::before, .rule::after {
+      content: '';
+      position: absolute;
+      top: -3px;
+      width: 1px; height: 7px;
+      background: var(--amber);
+    }
+    .rule::before { left: 0; }
+    .rule::after { right: 0; }
+
+    /* ── FEATURES ── */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      margin-top: 48px;
+    }
+    .feature {
+      padding: 40px 24px 40px 0;
+      border-left: 1px solid rgba(255,255,255,0.05);
+      padding-left: 24px;
+      transition: background 280ms var(--ease);
+    }
+    .feature:first-child { border-left: 0; padding-left: 0; }
+    .feature:hover { background: rgba(255,255,255,0.015); }
+    .feature__head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .feature__num {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      color: var(--amber);
+      font-weight: 600;
+    }
+    .feature__num--lum { color: var(--lum); }
+    .feature__line { flex: 1; height: 1px; background: var(--line); }
+    .feature__title {
+      font-size: 22px;
+      font-weight: 500;
+      line-height: 1.2;
+      letter-spacing: -0.015em;
+      margin-bottom: 12px;
+      color: var(--fg-100);
+    }
+    .feature__text {
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--fg-300);
+      margin-bottom: 20px;
+    }
+    .feature__items {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .feature__items li {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.04em;
+      color: var(--fg-400);
+      display: flex;
+      gap: 8px;
+    }
+    .feature__items li::before { content: '└─'; color: var(--fg-400); opacity: 0.4; }
+    .ai-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 3px 7px;
+      border: 1px solid var(--lum);
+      color: var(--lum);
+      background: rgba(91,176,255,0.06);
+    }
+    .ai-badge::before {
+      content: '';
+      width: 4px; height: 4px;
+      background: var(--lum);
+      border-radius: 50%;
+      box-shadow: 0 0 6px var(--lum);
+      animation: pulse 1.6s ease-in-out infinite;
+    }
+
+    /* ── SPOTLIGHT ── */
+    .spotlight {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border: 1px solid var(--line-strong);
+      background: linear-gradient(160deg, var(--ink-200), var(--ink-100));
+      position: relative;
+      box-shadow: 0 40px 80px -20px rgba(0,0,0,0.5);
+    }
+    .spotlight::before, .spotlight::after {
+      content: '';
+      position: absolute;
+      width: 10px; height: 10px;
+      border: 1px solid var(--amber);
+      pointer-events: none;
+    }
+    .spotlight::before { top: -1px; left: -1px; border-right: none; border-bottom: none; }
+    .spotlight::after  { bottom: -1px; right: -1px; border-left: none; border-top: none; }
+    .spotlight__visual {
+      padding: 48px;
+      border-right: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(ellipse at 30% 30%, rgba(232,176,72,0.04), transparent 60%);
+    }
+    .spotlight__visual svg { width: 100%; max-width: 440px; }
+    .spotlight__body {
+      padding: 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .spotlight__tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tag {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 5px 9px;
+      border: 1px solid var(--amber);
+      color: var(--amber);
+    }
+    .tag--soft { border-color: var(--line-strong); color: var(--fg-400); }
+    .spotlight__name {
+      font-size: 52px;
+      font-weight: 500;
+      line-height: 1;
+      letter-spacing: -0.025em;
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+    }
+    .spotlight__name-sub {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      color: var(--fg-400);
+      font-weight: 400;
+    }
+    .spotlight__lede {
+      font-size: 16px;
+      line-height: 1.65;
+      color: var(--fg-300);
+    }
+    .livestrip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border: 1px solid var(--line);
+      background: rgba(91,176,255,0.025);
+    }
+    .livestrip__item {
+      padding: 12px 16px;
+      border-left: 1px solid var(--line);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .livestrip__item:first-child { border-left: 0; }
+    .livestrip__key {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--fg-400);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .livestrip__key::before {
+      content: '';
+      width: 4px; height: 4px;
+      background: var(--lum);
+      border-radius: 50%;
+      box-shadow: 0 0 5px var(--lum);
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+    .livestrip__val {
+      font-family: var(--font-mono);
+      font-size: 20px;
+      letter-spacing: -0.02em;
+      color: var(--fg-100);
+    }
+    .speclist {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px 20px;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      padding: 16px 0;
+    }
+    .speclist__item { display: flex; flex-direction: column; gap: 3px; }
+    .speclist dt {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--fg-400);
+    }
+    .speclist dd {
+      margin: 0;
+      font-size: 13px;
+      color: var(--fg-100);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .link-arrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--amber);
+      border-bottom: 1px solid var(--amber);
+      padding-bottom: 2px;
+      align-self: flex-start;
+      transition: gap 160ms var(--ease);
+    }
+    .link-arrow:hover { gap: 14px; }
+
+    /* ── CONTACT ── */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 40px;
+      align-items: start;
+    }
+    .coords-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      padding: 32px;
+      border: 1px solid var(--line);
+      background: var(--ink-200);
+    }
+    .coords-group { display: flex; flex-direction: column; gap: 6px; }
+    .coords-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--fg-400);
+    }
+    .coords-val {
+      font-size: 16px;
+      letter-spacing: -0.005em;
+      color: var(--fg-100);
+      word-break: break-all;
+      transition: color 160ms;
+    }
+    a.coords-val:hover { color: var(--amber); }
+    .coords-val--muted { color: var(--fg-300); }
+    .coords-divider { height: 1px; background: var(--line); margin: 4px 0; }
+
+    .form-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      padding: 32px;
+      border: 1px solid var(--line);
+      background: var(--ink-100);
+    }
+    .form-header, .form-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .form-footer {
+      border-top: 1px solid var(--line);
+      padding-top: 24px;
+      margin-top: 8px;
+    }
+    .form-id {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      color: var(--fg-400);
+    }
+    .field { display: flex; flex-direction: column; gap: 8px; }
+    .field-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--fg-400);
+    }
+    .field-num { color: var(--amber); font-weight: 600; }
+    .input {
+      font-family: var(--font-display);
+      font-size: 15px;
+      line-height: 1.4;
+      padding: 12px 14px;
+      background: transparent;
+      color: var(--fg-100);
+      border: 1px solid var(--line-strong);
+      border-radius: 0;
+      outline: none;
+      transition: border-color 160ms, background 160ms;
+      width: 100%;
+    }
+    .input::placeholder { color: var(--fg-400); }
+    .input:focus { border-color: var(--amber); background: rgba(232,176,72,0.03); }
+    textarea.input { resize: vertical; min-height: 110px; font-family: var(--font-display); }
+
+    /* ── FOOTER ── */
+    .footer {
+      padding: 80px 0 40px;
+      background: var(--ink-050);
+    }
+    .footer__inner {
+      display: grid;
+      grid-template-columns: 1fr 1.8fr;
+      gap: 64px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 28px;
+    }
+    .footer__brand { display: flex; align-items: flex-start; gap: 12px; }
+    .footer__brand-text { display: flex; flex-direction: column; gap: 5px; }
+    .footer__name {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: var(--fg-100);
+    }
+    .footer__sub {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.16em;
+      color: var(--fg-400);
+    }
+    .footer__cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+    .footer__col { display: flex; flex-direction: column; gap: 12px; }
+    .footer__col-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--fg-400);
+      margin-bottom: 4px;
+    }
+    .footer__col a {
+      font-size: 13px;
+      color: var(--fg-300);
+      transition: color 160ms;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .footer__col a:hover { color: var(--amber); }
+    .footer__col-dim {
+      font-size: 13px;
+      color: var(--fg-400);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .footer__col-meta {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      color: var(--fg-400);
+    }
+    .footer__base {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      color: var(--fg-400);
+    }
+    .footer__base a { color: var(--amber); transition: opacity 160ms; }
+    .footer__base a:hover { opacity: 0.8; }
+    .base-sep { opacity: 0.3; }
+
+    /* ── FADE-UP ── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(18px);
+      animation: fadeUp 800ms var(--ease) forwards;
+    }
+    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1000px) {
+      .nav { display: none; }
+      .section__lead { grid-template-columns: 1fr; }
+      .section__body { margin-left: 0; }
+      .features { grid-template-columns: 1fr 1fr; gap: 0; }
+      .feature:nth-child(3) { border-left: 0; padding-left: 0; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 32px; margin-top: 32px; }
+      .feature:nth-child(4) { border-top: 1px solid rgba(255,255,255,0.05); padding-top: 32px; margin-top: 32px; }
+      .spotlight { grid-template-columns: 1fr; }
+      .spotlight__visual { border-right: 0; border-bottom: 1px solid var(--line); }
+      .contact-grid { grid-template-columns: 1fr; }
+      .footer__inner { grid-template-columns: 1fr; gap: 40px; }
+      .footer__cols { grid-template-columns: 1fr 1fr; }
+      .hero__stats { grid-template-columns: 1fr 1fr; gap: 20px; }
+      .stat { border-left: 0; border: 1px solid rgba(255,255,255,0.05); padding: 14px; }
+    }
+    @media (max-width: 640px) {
+      .hero__schematic { display: none; }
+      .header__dot { display: none; }
+      .features { grid-template-columns: 1fr; }
+      .feature { border-left: 0 !important; border-top: 1px solid rgba(255,255,255,0.05) !important; padding: 28px 0 !important; margin-top: 28px !important; }
+      .feature:first-child { border-top: 0 !important; padding-top: 0 !important; margin-top: 0 !important; }
+      .footer__cols { grid-template-columns: 1fr; }
+      .speclist { grid-template-columns: 1fr; }
+      .livestrip { grid-template-columns: 1fr; }
+      .livestrip__item { border-left: 0; border-top: 1px solid var(--line); }
+      .livestrip__item:first-child { border-top: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header" id="header">
+  <div class="header__inner">
+    <a href="#top" class="wordmark">
+      <svg class="wordmark__mark" viewBox="0 0 64 64" fill="none" aria-label="BNG">
+        <rect x="2" y="2" width="60" height="60" stroke="#E8B048" stroke-width="1.5"/>
+        <line x1="10" y1="54" x2="54" y2="10" stroke="#EDF2FA" stroke-width="1.5"/>
+        <circle cx="10" cy="54" r="4" fill="#E8B048"/>
+        <circle cx="54" cy="10" r="4" fill="#E8B048"/>
+        <circle cx="32" cy="32" r="5" fill="#080E1C" stroke="#EDF2FA" stroke-width="1.5"/>
+      </svg>
+      <div class="wordmark__text">
+        <span class="wordmark__name">BLACKWELL NEXUS</span>
+        <span class="wordmark__sub">GROUP / ARCHITECTURE</span>
+      </div>
+    </a>
+    <nav class="nav">
+      <a href="#what-we-build"><span class="nav__num">01</span> What We Build</a>
+      <a href="#our-work"><span class="nav__num">02</span> Our Work</a>
+      <a href="#contact"><span class="nav__num">03</span> Contact</a>
+    </nav>
+    <div class="header__dot">
+      <span class="pulse"></span>
+      <span>ACTIVE / 2026</span>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section id="top" class="hero">
+  <div class="hero__grid"></div>
+  <div class="hero__glow"></div>
+  <div class="hero__glow hero__glow--lum"></div>
+
+  <!-- Schematic decoration -->
+  <svg class="hero__schematic" viewBox="0 0 400 320" fill="none" aria-hidden="true">
+    <g stroke="rgba(255,255,255,0.06)" stroke-width="1">
+      <path d="M40 40 L200 40 L200 160 L360 160"/>
+      <path d="M200 40 L200 260 L320 260"/>
+      <path d="M40 160 L120 160 L120 220"/>
+    </g>
+    <g stroke="rgba(91,176,255,0.4)" stroke-width="0.8">
+      <path class="flow flow--slow" d="M120 220 L200 220 L200 280 L320 280"/>
+    </g>
+    <g stroke="#E8B048" stroke-width="1.25">
+      <path d="M40 40 L200 40 L200 160 L360 160 L360 260"/>
+    </g>
+    <path class="travel" d="M40 40 L200 40 L200 160 L360 160 L360 260" stroke="rgba(245,200,113,0.8)" stroke-width="2"/>
+    <g fill="#080E1C" stroke="rgba(141,170,191,0.5)" stroke-width="1">
+      <rect x="34" y="34" width="12" height="12"/>
+      <rect x="114" y="154" width="12" height="12"/>
+      <rect x="354" y="254" width="12" height="12"/>
+      <rect x="114" y="214" width="12" height="12"/>
+      <rect x="314" y="254" width="12" height="12"/>
+    </g>
+    <g fill="#E8B048">
+      <rect class="npulse" x="194" y="34" width="12" height="12"/>
+      <rect class="npulse npulse--2" x="194" y="154" width="12" height="12"/>
+      <rect class="npulse npulse--3" x="354" y="154" width="12" height="12"/>
+    </g>
+    <g fill="#5BB0FF">
+      <rect class="npulse npulse--2" x="194" y="274" width="12" height="12"/>
+    </g>
+    <g font-family="JetBrains Mono,monospace" font-size="9" letter-spacing="0.12em" fill="rgba(90,122,150,0.8)">
+      <text x="40" y="28">NODE.A</text>
+      <text x="198" y="28">NEXUS</text>
+      <text x="360" y="150">DEPLOY</text>
+      <text x="198" y="302" fill="#5BB0FF">AI.LAYER</text>
+    </g>
+  </svg>
+
+  <div class="wrap">
+    <div class="hero__content">
+      <div class="hero__eyebrow fade-up" style="animation-delay:0ms">
+        <span class="mono-tag">EST. 2025 / WYOMING</span>
+        <span class="sep">·</span>
+        <span class="mono-tag">SYSTEMS ARCHITECTURE</span>
+        <span class="sep">·</span>
+        <span class="mono-tag mono-tag--lum ai-badge">AI-POWERED INFRASTRUCTURE</span>
+      </div>
+      <h1 class="hero__h1 fade-up" style="animation-delay:100ms">
+        We build the systems<br>
+        that power <em>institutional</em><br>
+        compliance.
+      </h1>
+      <p class="hero__sub fade-up" style="animation-delay:260ms">
+        Blackwell Nexus Group designs and deploys AI-powered operational
+        infrastructure for institutions navigating regulated, multi-stakeholder
+        environments. We are the firm behind the platform.
+      </p>
+      <div class="hero__actions fade-up" style="animation-delay:400ms">
+        <a href="#what-we-build" class="btn btn--primary">
+          What We Build
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 11L11 3M11 3H5M11 3V9" stroke="currentColor" stroke-width="1.4"/></svg>
+        </a>
+        <a href="#contact" class="btn btn--ghost">Open Inquiry</a>
+      </div>
+      <div class="hero__stats fade-up" style="animation-delay:560ms">
+        <div class="stat">
+          <span class="stat__key">Class</span>
+          <span class="stat__val">Infrastructure</span>
+        </div>
+        <div class="stat">
+          <span class="stat__key">Domain</span>
+          <span class="stat__val">Sector-Agnostic</span>
+        </div>
+        <div class="stat">
+          <span class="stat__key">Intelligence</span>
+          <span class="stat__val stat__val--lum">AI-Augmented Core</span>
+        </div>
+        <div class="stat">
+          <span class="stat__key">Mode</span>
+          <span class="stat__val stat__val--amber">License · Deploy · Brand</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker__track" id="ticker-track">
+    <span class="ticker__item ticker__item--lum"><span class="ticker__key">SYS-01</span> CEPLIA ACTIVE</span>
+    <span class="ticker__sep">·</span>
+    <span class="ticker__item"><span class="ticker__key">UPTIME</span> 99.97% / 30D</span>
+    <span class="ticker__sep">·</span>
+    <span class="ticker__item ticker__item--amber"><span class="ticker__key">DOMAIN</span> K-12 COMPLIANCE</span>
+    <span class="ticker__sep">·</span>
+    <span class="ticker__item"><span class="ticker__key">AI ENGINE</span> POLICY v2.1</span>
+    <span class="ticker__sep">·</span>
+    <span class="ticker__item"><span class="ticker__key">NODES</span> 14 DEPLOYED</span>
+    <span class="ticker__sep">·</span>
+    <span class="ticker__item ticker__item--lum"><span class="ticker__key">INFERENCE</span> STREAM OPEN</span>
+    <span class="ticker__sep">·</span>
+    <span class="ticker__item"><span class="ticker__key">COORDS</span> 41.13°N · -104.81°W</span>
+    <span class="ticker__sep">·</span>
+    <span class="ticker__item ticker__item--amber"><span class="ticker__key">SYS-02</span> IN ARCHITECTURE</span>
+    <span class="ticker__sep">·</span>
+    <span class="ticker__item"><span class="ticker__key">MANDATE</span> WY · COMPLIANT</span>
+    <span class="ticker__sep">·</span>
+    <span class="ticker__item"><span class="ticker__key">AUDIT</span> CONTINUOUS</span>
+    <span class="ticker__sep">·</span>
+    <span class="ticker__item ticker__item--lum"><span class="ticker__key">AI MODEL</span> BNG-NEXUS-1</span>
+    <span class="ticker__sep">·</span>
+    <span class="ticker__item"><span class="ticker__key">CYCLE</span> LIVE / 24HZ</span>
+    <span class="ticker__sep">·</span>
+    <!-- duplicate for seamless loop -->
+    <span class="ticker__item ticker__item--lum"><span class="ticker__key">SYS-01</span> CEPLIA ACTIVE</span>
+    <span class="ticker__sep">·</span>
+    <span class="ticker__item"><span class="ticker__key">UPTIME</span> 99.97% / 30D</span>
+    <span class="ticker__sep">·</span>
+    <span class="ticker__item ticker__item--amber"><span class="ticker__key">DOMAIN</span> K-12 COMPLIANCE</span>
+    <span class="ticker__sep">·</span>
+    <span class="ticker__item"><span class="ticker__key">AI ENGINE</span> POLICY v2.1</span>
+    <span class="ticker__sep">·</span>
+    <span class="ticker__item"><span class="ticker__key">NODES</span> 14 DEPLOYED</span>
+    <span class="ticker__sep">·</span>
+    <span class="ticker__item ticker__item--lum"><span class="ticker__key">INFERENCE</span> STREAM OPEN</span>
+    <span class="ticker__sep">·</span>
+    <span class="ticker__item"><span class="ticker__key">COORDS</span> 41.13°N · -104.81°W</span>
+    <span class="ticker__sep">·</span>
+    <span class="ticker__item ticker__item--amber"><span class="ticker__key">SYS-02</span> IN ARCHITECTURE</span>
+    <span class="ticker__sep">·</span>
+    <span class="ticker__item"><span class="ticker__key">MANDATE</span> WY · COMPLIANT</span>
+    <span class="ticker__sep">·</span>
+    <span class="ticker__item"><span class="ticker__key">AUDIT</span> CONTINUOUS</span>
+    <span class="ticker__sep">·</span>
+    <span class="ticker__item ticker__item--lum"><span class="ticker__key">AI MODEL</span> BNG-NEXUS-1</span>
+    <span class="ticker__sep">·</span>
+    <span class="ticker__item"><span class="ticker__key">CYCLE</span> LIVE / 24HZ</span>
+    <span class="ticker__sep">·</span>
+  </div>
+</div>
+
+<!-- WHAT WE BUILD -->
+<section id="what-we-build" class="section">
+  <div class="wrap">
+    <div class="section-label">
+      <span class="section-label__num">01</span>
+      <span class="section-label__sep">/</span>
+      <span class="section-label__name">WHAT WE BUILD</span>
+    </div>
+    <div class="section__lead">
+      <h2 class="section__title">
+        One architectural model.<br>
+        <span class="muted">Intelligent across every institutional vertical.</span>
+      </h2>
+      <p class="section__body">
+        BNG designs proprietary operational systems — each shipped with a native AI layer —
+        engineered to be licensed, deployed, and re-branded across sectors that operate
+        under sustained regulatory load.
+      </p>
+    </div>
+    <div class="rule"></div>
+    <div class="features">
+      <article class="feature">
+        <div class="feature__head">
+          <span class="feature__num">F.01</span>
+          <span class="feature__line"></span>
+        </div>
+        <h3 class="feature__title">Systems Architecture</h3>
+        <p class="feature__text">We design the underlying logic — workflows, data models, governance layers — before a single interface is drawn.</p>
+        <ul class="feature__items">
+          <li>Process modeling</li>
+          <li>Data + permissioning</li>
+          <li>Mandate mapping</li>
+        </ul>
+      </article>
+      <article class="feature">
+        <div class="feature__head">
+          <span class="feature__num">F.02</span>
+          <span class="feature__line"></span>
+        </div>
+        <h3 class="feature__title">Compliance Infrastructure</h3>
+        <p class="feature__text">Operational systems engineered for regulated environments, audit trails, and the verification load institutions actually carry.</p>
+        <ul class="feature__items">
+          <li>Audit-grade logging</li>
+          <li>Evidence pipelines</li>
+          <li>Reporting primitives</li>
+        </ul>
+      </article>
+      <article class="feature">
+        <div class="feature__head">
+          <span class="feature__num feature__num--lum">F.03</span>
+          <span class="feature__line"></span>
+          <span class="ai-badge">AI</span>
+        </div>
+        <h3 class="feature__title">AI Augmentation</h3>
+        <p class="feature__text">Every BNG system ships with a dedicated AI layer — not bolted on after the fact, but designed into the architecture from day one.</p>
+        <ul class="feature__items">
+          <li>Policy reasoning engine</li>
+          <li>Document intelligence</li>
+          <li>Anomaly detection</li>
+        </ul>
+      </article>
+      <article class="feature">
+        <div class="feature__head">
+          <span class="feature__num">F.04</span>
+          <span class="feature__line"></span>
+        </div>
+        <h3 class="feature__title">Vertical Deployment</h3>
+        <p class="feature__text">A single architectural core, licensed and re-branded for each institutional vertical we enter. One model, many sectors.</p>
+        <ul class="feature__items">
+          <li>Multi-tenant by design</li>
+          <li>White-label deployment</li>
+          <li>Sector-tuned policy</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- OUR WORK -->
+<section id="our-work" class="section">
+  <div class="wrap">
+    <div class="section-label">
+      <span class="section-label__num">02</span>
+      <span class="section-label__sep">/</span>
+      <span class="section-label__name">OUR WORK / DEPLOYED SYSTEMS</span>
+    </div>
+    <div class="section__lead">
+      <h2 class="section__title">
+        First system deployed.<br>
+        <span class="muted">An AI-powered compliance engine, live in the field.</span>
+      </h2>
+    </div>
+    <div class="rule"></div>
+    <article class="spotlight">
+      <div class="spotlight__visual">
+        <svg viewBox="0 0 480 360" fill="none" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <pattern id="dots" x="0" y="0" width="16" height="16" patternUnits="userSpaceOnUse">
+              <circle cx="1" cy="1" r="0.7" fill="rgba(255,255,255,0.06)"/>
+            </pattern>
+          </defs>
+          <rect width="480" height="360" fill="url(#dots)"/>
+          <g stroke="rgba(255,255,255,0.12)" stroke-width="1">
+            <rect x="40" y="60" width="140" height="56"/>
+            <rect x="220" y="60" width="100" height="56"/>
+            <rect x="360" y="60" width="80" height="56"/>
+            <rect x="40" y="166" width="200" height="48"/>
+            <rect x="280" y="166" width="160" height="48"/>
+            <rect x="40" y="258" width="400" height="58"/>
+            <path d="M110 116 L110 166"/>
+            <path d="M270 116 L270 166"/>
+            <path d="M400 116 L400 166"/>
+            <path d="M140 214 L140 258"/>
+            <path d="M360 214 L360 258"/>
+          </g>
+          <g stroke="#5BB0FF" stroke-width="0.9" opacity="0.6">
+            <path class="flow" d="M270 88 L400 88 L400 190 L360 190"/>
+            <path class="flow flow--slow" d="M140 190 L240 190"/>
+          </g>
+          <g stroke="#E8B048" stroke-width="1.25">
+            <path d="M110 116 L110 166 L140 166 L140 214 L140 258"/>
+          </g>
+          <path class="travel" d="M110 116 L110 166 L140 166 L140 214 L140 258" stroke="rgba(245,200,113,0.9)" stroke-width="2"/>
+          <g fill="#132033" stroke="rgba(141,170,191,0.4)" stroke-width="1">
+            <rect x="264" y="82" width="12" height="12"/>
+            <rect x="394" y="82" width="12" height="12"/>
+          </g>
+          <g fill="#E8B048">
+            <rect class="npulse" x="104" y="110" width="12" height="12"/>
+            <rect class="npulse npulse--3" x="134" y="252" width="12" height="12"/>
+          </g>
+          <g fill="#5BB0FF">
+            <rect class="npulse npulse--2" x="354" y="184" width="12" height="12"/>
+          </g>
+          <g font-family="JetBrains Mono,monospace" font-size="9" letter-spacing="0.13em" fill="rgba(90,122,150,0.85)">
+            <text x="50" y="84">MANDATE INPUT</text>
+            <text x="50" y="97" fill="rgba(90,122,150,0.5)">STATE / DISTRICT</text>
+            <text x="230" y="84">POLICY MAP</text>
+            <text x="230" y="97" fill="rgba(90,122,150,0.5)">RULE ENGINE</text>
+            <text x="370" y="84">EVIDENCE</text>
+            <text x="370" y="97" fill="rgba(90,122,150,0.5)">ARTIFACTS</text>
+            <text x="50" y="188">WORKFLOW EXECUTION</text>
+            <text x="290" y="188" fill="#5BB0FF">AI · AUDIT LEDGER</text>
+            <text x="50" y="280">REPORT / EXPORT / SIGN-OFF</text>
+            <text x="50" y="294" fill="rgba(90,122,150,0.5)">STAKEHOLDER LAYER</text>
+          </g>
+          <g stroke="#E8B048" stroke-width="1">
+            <line x1="20" y1="20" x2="32" y2="20"/><line x1="20" y1="20" x2="20" y2="32"/>
+            <line x1="460" y1="340" x2="448" y2="340"/><line x1="460" y1="340" x2="460" y2="328"/>
+          </g>
+        </svg>
+      </div>
+      <div class="spotlight__body">
+        <div class="spotlight__tags">
+          <span class="tag">DEPLOYED · 01</span>
+          <span class="tag tag--soft">SECTOR: K–12 EDUCATION</span>
+          <span class="ai-badge">AI-POWERED</span>
+        </div>
+        <div class="spotlight__name">
+          Ceplia
+          <span class="spotlight__name-sub">/ SYS-01</span>
+        </div>
+        <p class="spotlight__lede">
+          The first operational system architected and deployed by BNG. An AI-powered
+          compliance engine for K–12 institutions navigating state mandate requirements —
+          Ceplia translates regulatory load into structured workflow, evidence, and
+          defensible audit trail, with a continuous policy-reasoning layer at its core.
+        </p>
+        <div class="livestrip">
+          <div class="livestrip__item">
+            <span class="livestrip__key">UPTIME / 30D</span>
+            <span class="livestrip__val">99.97%</span>
+          </div>
+          <div class="livestrip__item">
+            <span class="livestrip__key">MANDATES TRACKED</span>
+            <span class="livestrip__val">142</span>
+          </div>
+          <div class="livestrip__item">
+            <span class="livestrip__key">AI INFERENCES / WK</span>
+            <span class="livestrip__val">8.4k</span>
+          </div>
+        </div>
+        <dl class="speclist">
+          <div class="speclist__item"><dt>Operator</dt><dd>Blackwell Nexus Group</dd></div>
+          <div class="speclist__item"><dt>Status</dt><dd><span class="pulse"></span> Active deployment</dd></div>
+          <div class="speclist__item"><dt>Domain</dt><dd>K–12 / state mandate compliance</dd></div>
+          <div class="speclist__item"><dt>Intelligence</dt><dd style="color:var(--lum)">Native AI policy reasoning</dd></div>
+        </dl>
+        <a href="https://www.ceplia.com" target="_blank" rel="noopener" class="link-arrow">
+          Visit Ceplia
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 11L11 3M11 3H5M11 3V9" stroke="currentColor" stroke-width="1.4"/></svg>
+        </a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="section">
+  <div class="wrap">
+    <div class="section-label">
+      <span class="section-label__num">03</span>
+      <span class="section-label__sep">/</span>
+      <span class="section-label__name">CONTACT / OPEN A CHANNEL</span>
+    </div>
+    <div class="section__lead">
+      <h2 class="section__title">
+        Open a channel.<br>
+        <span class="muted">We work with a small number of institutions per year.</span>
+      </h2>
+    </div>
+    <div class="rule"></div>
+    <div class="contact-grid">
+      <aside class="coords-panel">
+        <div class="coords-group">
+          <span class="coords-label">Channel.01 / Email</span>
+          <a href="mailto:info@blackwellnexusgroup.com" class="coords-val">info@blackwellnexusgroup.com</a>
+        </div>
+        <div class="coords-group">
+          <span class="coords-label">Channel.02 / Web</span>
+          <a href="https://blackwellnexusgroup.com" class="coords-val">blackwellnexusgroup.com</a>
+        </div>
+        <div class="coords-group">
+          <span class="coords-label">Channel.03 / Voice</span>
+          <a href="tel:+13075455765" class="coords-val">307 · 545 · 5765</a>
+        </div>
+        <div class="coords-divider"></div>
+        <div class="coords-group">
+          <span class="coords-label">Jurisdiction</span>
+          <span class="coords-val coords-val--muted">Wyoming · United States</span>
+        </div>
+        <div class="coords-group">
+          <span class="coords-label">Cycle</span>
+          <span class="coords-val coords-val--muted">Mon — Fri / 9:00 AM – 5:00 PM EST</span>
+        </div>
+      </aside>
+
+      <div class="form-panel">
+        <div class="form-header">
+          <span class="mono-tag mono-tag--amber">▸ NEW INQUIRY · FORM-01</span>
+          <span class="form-id" id="form-id"></span>
+        </div>
+        <form id="contact-form" novalidate>
+          <div class="field" style="margin-bottom:20px">
+            <label class="field-label" for="f-name"><span class="field-num">01</span> Name</label>
+            <input class="input" type="text" id="f-name" name="name" placeholder="—" required>
+          </div>
+          <div class="field" style="margin-bottom:20px">
+            <label class="field-label" for="f-email"><span class="field-num">02</span> Email</label>
+            <input class="input" type="email" id="f-email" name="email" placeholder="—" required>
+          </div>
+          <div class="field" style="margin-bottom:20px">
+            <label class="field-label" for="f-org"><span class="field-num">03</span> Organization</label>
+            <input class="input" type="text" id="f-org" name="org" placeholder="—">
+          </div>
+          <div class="field" style="margin-bottom:20px">
+            <label class="field-label" for="f-msg"><span class="field-num">04</span> Message</label>
+            <textarea class="input" id="f-msg" name="message" rows="5" placeholder="—" required></textarea>
+          </div>
+          <div class="form-footer">
+            <span class="mono-tag" id="form-status">▸ TRANSMISSION ENCRYPTED</span>
+            <button type="submit" class="btn btn--primary" id="form-btn">
+              Submit Inquiry
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 11L11 3M11 3H5M11 3V9" stroke="currentColor" stroke-width="1.4"/></svg>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <svg width="24" height="24" viewBox="0 0 64 64" fill="none">
+          <rect x="2" y="2" width="60" height="60" stroke="#E8B048" stroke-width="1.5"/>
+          <line x1="10" y1="54" x2="54" y2="10" stroke="#EDF2FA" stroke-width="1.5"/>
+          <circle cx="10" cy="54" r="4" fill="#E8B048"/>
+          <circle cx="54" cy="10" r="4" fill="#E8B048"/>
+          <circle cx="32" cy="32" r="5" fill="#080E1C" stroke="#EDF2FA" stroke-width="1.5"/>
+        </svg>
+        <div class="footer__brand-text">
+          <span class="footer__name">BLACKWELL NEXUS GROUP</span>
+          <span class="footer__sub">SYSTEMS · ARCHITECTURE · DEPLOYMENT</span>
+        </div>
+      </div>
+      <div class="footer__cols">
+        <div class="footer__col">
+          <span class="footer__col-label">Index</span>
+          <a href="#what-we-build">01 / What We Build</a>
+          <a href="#our-work">02 / Our Work</a>
+          <a href="#contact">03 / Contact</a>
+        </div>
+        <div class="footer__col">
+          <span class="footer__col-label">Systems</span>
+          <a href="#our-work">Ceplia <span class="footer__col-meta">SYS-01</span></a>
+          <span class="footer__col-dim">SYS-02 <span class="footer__col-meta">IN ARCH.</span></span>
+          <span class="footer__col-dim">SYS-03 <span class="footer__col-meta">IN ARCH.</span></span>
+        </div>
+        <div class="footer__col">
+          <span class="footer__col-label">Direct</span>
+          <a href="mailto:info@blackwellnexusgroup.com">info@blackwellnexusgroup.com</a>
+          <a href="tel:+13075455765">307 · 545 · 5765</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer__base">
+      <span id="footer-year"></span>
+      <span class="base-sep">·</span>
+      <span>ALL SYSTEMS PROPRIETARY</span>
+      <span class="base-sep">·</span>
+      <span>41.13°N / -104.81°W</span>
+      <span class="base-sep">·</span>
+      <a href="https://docs.google.com/document/d/1uNkcJT9TaPIsSVuz_k0Sb5ZwzQ2jjbcMVkF-2RZgy_A/edit?usp=sharing" target="_blank" rel="noopener">Terms of Use</a>
+      <span class="base-sep">·</span>
+      <a href="https://docs.google.com/document/d/1Xf4WXGXcg6hYVxmC1__c38m--5JF4uR54wOB82aL9Qo/edit?usp=sharing" target="_blank" rel="noopener">Privacy Notice</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Header scroll
+  const header = document.getElementById('header');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 16);
+  }, { passive: true });
+
+  // Form ID
+  document.getElementById('form-id').textContent =
+    'ID ' + Math.random().toString(36).slice(2,8).toUpperCase();
+
+  // Footer year
+  document.getElementById('footer-year').textContent =
+    '© ' + new Date().getFullYear() + ' BLACKWELL NEXUS GROUP, LLC';
+
+  // Contact form → Formspree
+  const form = document.getElementById('contact-form');
+  const btn  = document.getElementById('form-btn');
+  const status = document.getElementById('form-status');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    btn.disabled = true;
+    status.textContent = '▸ TRANSMITTING…';
+    try {
+      const res = await fetch('https://formspree.io/f/xgoqpzkw', {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: new FormData(form),
+      });
+      if (res.ok) {
+        status.textContent = '▸ TRANSMITTED · STANDBY';
+        btn.textContent = 'Submitted';
+        form.reset();
+        setTimeout(() => {
+          status.textContent = '▸ TRANSMISSION ENCRYPTED';
+          btn.innerHTML = 'Submit Inquiry <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 11L11 3M11 3H5M11 3V9" stroke="currentColor" stroke-width="1.4"/></svg>';
+          btn.disabled = false;
+        }, 3500);
+      } else {
+        status.textContent = '▸ ERROR — PLEASE RETRY';
+        btn.disabled = false;
+      }
+    } catch {
+      status.textContent = '▸ ERROR — PLEASE RETRY';
+      btn.disabled = false;
+    }
+  });
+
+  // Intersection observer for scroll-triggered fade-ups
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(el => {
+      if (el.isIntersecting) {
+        el.target.style.opacity = '1';
+        el.target.style.transform = 'translateY(0)';
+        observer.unobserve(el.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.section-label, .section__lead, .features, .spotlight, .contact-grid').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 700ms cubic-bezier(0.2,0.6,0.2,1), transform 700ms cubic-bezier(0.2,0.6,0.2,1)';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
